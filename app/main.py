@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from fastapi import FastAPI
 import random
 
@@ -29,3 +30,21 @@ def get_suggestion():
     if not rewards:
         return {"message": "Daftar hadiah kosong, ayo tambah dulu!"}
     return {"status": "success", "suggestion": random.choice(rewards)}
+
+@app.put("/rewards/{reward_id}")
+def update_reward(reward_id: int, name: str = None, points: int = None):
+    for r in rewards:
+        if r["id"] == reward_id:
+            if name: r["name"] = name
+            if points: r["points"] = points
+            return {"status": "updated", "data": r}
+    raise HTTPException(status_code=404, detail="Reward tidak ditemukan")
+
+# DELETE: Menghapus reward berdasarkan ID
+@app.delete("/rewards/{reward_id}")
+def delete_reward(reward_id: int):
+    for index, r in enumerate(rewards):
+        if r["id"] == reward_id:
+            removed = rewards.pop(index)
+            return {"status": "deleted", "data": removed}
+    raise HTTPException(status_code=404, detail="Reward tidak ditemukan")
