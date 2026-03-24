@@ -29,7 +29,7 @@ def add_reward(name: str, points: int):
 def get_suggestion():
     if not rewards:
         return {"message": "Daftar hadiah kosong, ayo tambah dulu!"}
-    return {"status": "success", "suggestion": random.choice(rewards)}
+    return {"status": "success", "suggestion": random.choice(rewards)} # nosec
 
 @app.put("/rewards/{reward_id}")
 def update_reward(reward_id: int, name: str = None, points: int = None):

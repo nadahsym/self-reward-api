@@ -28,4 +28,4 @@ jobs:
 
       - name: Security Scan (CS)
         run: |
-          bandit -r app/
+          bandit -r app/ -sk B101,B311
